@@ -7,7 +7,8 @@ class Ball:
     image = None;
 
     def __init__(self):
-        self.x, self.y = random.randint(200, 790), 60
+        self.x, self.y = random.randint(200, 790), 500
+        self.fall_speed = random.randint(50,120)
         if Ball.image == None:
             Ball.image = load_image('ball21x21.png')
 
@@ -16,6 +17,14 @@ class Ball:
 
     def draw(self):
         self.image.draw(self.x, self.y)
+    def update(self, frame_time):
+        self.y -= frame_time*self.fall_speed
+    def stop(self):
+        self.fall_speed = 0
+        self.y = 500
+        if self.y is 500:
+            self.x = random.randint(100,700)
+            self.fall_speed = random.randint(50,120)
 
     def get_bb(self):
         return self.x - 10, self.y - 10, self.x + 10, self.y + 10

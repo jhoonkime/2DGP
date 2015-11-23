@@ -6,6 +6,9 @@ import game_framework
 from boy import Boy # import Boy class from boy.py
 from ball import Ball, BigBall
 from grass import Grass
+from grass import Back
+
+from boy import Effect
 
 
 
@@ -15,21 +18,21 @@ boy = None
 balls = None
 big_balls = None
 grass = None
+background = None
 
 def create_world():
-    global boy, grass, balls, big_balls
+    global boy, grass, balls, big_balls,effect,background
     boy = Boy()
     balls = [Ball() for i in range(10)]
     grass = Grass()
     big_balls = [BigBall() for i in range(10)]
     balls = big_balls+balls
-
+    background = Back()
     pass
 
 
 def destroy_world():
-    global boy, grass, balls, big_balls
-
+    global boy, grass, balls, big_balls,effect
     del(boy)
     del(balls)
     del(grass)
@@ -82,15 +85,22 @@ def collide(a, b):
 
 def update(frame_time):
     boy.update(frame_time)
+    background.update(frame_time)
+
     for ball in balls:
         ball.update(frame_time)
 
     for ball in balls:
         if collide(boy,ball):
             print ("collision")
-            balls.remove(ball)
+            ball.stop()
 
-    for ball in big_balls:
+    for ball in balls:
+        if collide(boy.effect,ball):
+            print ("collision")
+            ball.stop()
+
+    for ball in balls:
         if collide(grass,ball):
             ball.stop()
 
@@ -100,6 +110,7 @@ def update(frame_time):
 
 def draw(frame_time):
     clear_canvas()
+    background.draw()
     grass.draw()
     boy.draw()
     for ball in balls:
