@@ -6,7 +6,9 @@ class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
         self.xsi,self.ysi = 400,30
-
+        self.bgm = load_music('football.mp3')
+        self.bgm.set_volume(64)
+        self.bgm.repeat_play()
         self.x,self.y = self.xsi,self.ysi
     def draw(self):
         self.image.draw(self.x,self.y)
@@ -16,6 +18,7 @@ class Grass:
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
+
 
 class Back:
     image = None
